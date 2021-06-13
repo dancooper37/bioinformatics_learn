@@ -1,5 +1,5 @@
 def colored(seq):
-    """Colors nucleotides for easier reading"""
+    """Colors nucleotides in terminal for easier reading"""
     bcolors = {
         "A": "\033[92m",
         "C": "\033[94m",
@@ -18,3 +18,45 @@ def colored(seq):
             tmpStr += bcolors["reset"] + nuc
 
     return tmpStr + "\033[0;0m"
+
+
+def readFile(filePath):
+    """Reads file and returns list of lines"""
+    with open(filePath, "r") as f:
+        return [l.strip() for l in f.readlines()]
+
+
+def unpackFASTAToDict(url):
+    """Unpacks the contents of a FASTA file into a dictionary"""
+    # Unpacks file contents into list
+    FASTAFile = readFile(url)
+    # Dictionary for labels + data
+    FASTADict = {}
+    # String for current label
+    FASTALabel = ""
+
+    # Converts FASTA list file data into dictionary
+    for line in FASTAFile:
+        if ">" in line:
+            FASTALabel = line
+            FASTADict[FASTALabel] = ""
+        else:
+            FASTADict[FASTALabel] += line
+
+    return FASTADict
+
+
+def unpackFASTAToStr(url):
+    """Unpacks the contents of a FASTA file into a single string"""
+    # Unpacks file contents into list
+    FASTAFile = readFile(url)
+    FASTAStr = ""
+
+    # Converts FASTA list file data into dictionary
+    for line in FASTAFile:
+        if ">" in line:
+            FASTALabel = line
+        else:
+            FASTAStr += line
+
+    return FASTAStr

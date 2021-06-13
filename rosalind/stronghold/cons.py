@@ -1,9 +1,9 @@
-from toolkit.utilities import unpackFASTA
+from toolkit.utilities import unpackFASTAToDict
 from toolkit.dna import consensusNuc
 
 dnaMatrix = []
 
-dataDict = unpackFASTA("../compute_data/rosalind_cons.txt")
+dataDict = unpackFASTAToDict("../compute_data/rosalind_cons.txt")
 
 for value in dataDict.values():
     dnaMatrix.append(value)  # Unpacks the sequences from fasta into a list of strings

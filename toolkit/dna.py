@@ -21,6 +21,14 @@ def countNucFrequency(seq):
     # return dict(collections.Counter(seq))
 
 
+def consensusNuc(vector):
+    """Finds the most common nucleotide from a vector/list"""
+    tmpFreqDict = {"A": 0, "C": 0, "G": 0, "T": 0}
+    for nuc in vector:
+        tmpFreqDict[nuc] += 1
+    return max(tmpFreqDict, key=tmpFreqDict.get)
+
+
 def transcribeToRNA(seq):
     """DNA to RNA translation. Replaces Thymine with Uracil"""
     return seq.replace("T", "U")
@@ -120,7 +128,7 @@ def proteinListFromRF(aaSeq):
 
 
 def proteinScan(seq, startReadPos = 0, endReadPos = 0, ordered = False):
-    """Find all possible proteins for all open reading frames"""
+    """Find all possible unique proteins for all open reading frames"""
     if endReadPos > startReadPos:
         rfs = genReadingFrames(seq[startReadPos:endReadPos])
     else:
@@ -132,8 +140,11 @@ def proteinScan(seq, startReadPos = 0, endReadPos = 0, ordered = False):
         for p in proteins:
             res.append(p)
 
+    res = list(dict.fromkeys(res))  # Removes duplicates
+
     if ordered:
         return sorted(res, key = len, reverse = True)
+
     return res
 
 
